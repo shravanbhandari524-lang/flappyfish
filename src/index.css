@@ -1,0 +1,1303 @@
+:root {
+  --dusk: #1b1f3b;
+  --dusk-2: #2b3163;
+
+  --coral: #ff6b5b;
+  --coral-dark: #e4503f;
+
+  --mint: #43d9a3;
+  --gold: #ffc857;
+
+  --cream: #fff8ee;
+  --ink: #161a33;
+
+  --panel: #252a52;
+  --panel-line: rgba(255, 248, 238, 0.12);
+
+  --bg: #12142a;
+  --fg: var(--cream);
+
+  --shadow-hard: 0 6px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+
+  font-family: "Nunito", sans-serif;
+
+  overflow: hidden;
+  overscroll-behavior: none;
+
+  -webkit-user-select: none;
+  user-select: none;
+
+  -webkit-touch-callout: none;
+}
+
+/* Prevent browser gestures while interacting with game */
+button,
+canvas,
+input {
+  touch-action: manipulation;
+}
+
+/* =========================================================
+   APP CONTAINER
+   ========================================================= */
+
+#app {
+  position: relative;
+
+  width: 100%;
+  height: 100dvh;
+
+  max-width: 480px;
+  max-height: 900px;
+
+  margin: 0 auto;
+
+  background: linear-gradient(
+    180deg,
+    var(--dusk) 0%,
+    #161936 45%,
+    #0e1026 100%
+  );
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+
+  isolation: isolate;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+.heading,
+.btn,
+.coinpill,
+.hud-chip,
+.screen-title,
+.overlay-card,
+.levelcell,
+.shopcard .cname {
+  font-family: "Baloo 2", sans-serif;
+}
+
+.heading {
+  font-weight: 800;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+/* =========================================================
+   SCREENS
+   ========================================================= */
+
+.screen {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: none;
+  flex-direction: column;
+
+  padding: 20px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: none;
+}
+
+.screen::-webkit-scrollbar {
+  display: none;
+}
+
+.screen.active {
+  display: flex;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 14px;
+
+  flex-shrink: 0;
+}
+
+.coinpill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: var(--panel);
+
+  border: 2px solid var(--panel-line);
+
+  padding: 6px 12px 6px 6px;
+
+  border-radius: 999px;
+
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.coinpill svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.iconbtn {
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  border-radius: 12px;
+  border: 2px solid var(--panel-line);
+
+  background: var(--panel);
+  color: var(--fg);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+.iconbtn:active {
+  transform: translateY(2px);
+}
+
+/* =========================================================
+   TITLES
+   ========================================================= */
+
+h1.title {
+  margin: 6px 0 2px;
+
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+
+  font-size: clamp(34px, 9vw, 40px);
+  line-height: 1.05;
+
+  letter-spacing: 0.5px;
+
+  color: var(--cream);
+
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.subtitle {
+  margin: 0 0 20px;
+
+  color: #b7bbdd;
+
+  font-size: 14px;
+  line-height: 1.4;
+
+  font-weight: 700;
+}
+
+.screen-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 2px 0 16px;
+
+  font-size: 26px;
+  line-height: 1.1;
+
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   STAGE PREVIEW
+   ========================================================= */
+
+.stage-preview {
+  position: relative;
+
+  width: 100%;
+
+  flex: 1 1 auto;
+
+  min-height: 150px;
+
+  margin-bottom: 18px;
+
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  border: 3px solid var(--panel-line);
+
+  background: #0e1026;
+
+  isolation: isolate;
+}
+
+.stage-preview canvas {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+.charname {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 10px;
+
+  text-align: center;
+
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+
+  font-size: 18px;
+
+  color: #fff;
+
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+
+  pointer-events: none;
+}
+
+.arrowbtn {
+  position: absolute;
+
+  top: 50%;
+
+  width: 38px;
+  height: 38px;
+
+  transform: translateY(-50%);
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  color: #fff;
+
+  font-size: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 2;
+}
+
+.arrowbtn.left {
+  left: 10px;
+}
+
+.arrowbtn.right {
+  right: 10px;
+}
+
+.arrowbtn:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+  width: 100%;
+
+  padding: 15px 16px;
+
+  margin-bottom: 12px;
+
+  border: none;
+  border-radius: 16px;
+
+  font-size: 19px;
+  line-height: 1.2;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  color: var(--ink);
+
+  background: var(--gold);
+
+  box-shadow: var(--shadow-hard);
+
+  transition:
+    transform 0.05s ease,
+    filter 0.1s ease;
+}
+
+.btn:active {
+  transform: translateY(4px);
+
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.btn.primary {
+  background: var(--coral);
+  color: #fff;
+
+  box-shadow: 0 6px 0 var(--coral-dark);
+}
+
+.btn.primary:active {
+  box-shadow: 0 2px 0 var(--coral-dark);
+}
+
+.btn.ghost {
+  background: var(--panel);
+
+  color: var(--fg);
+
+  border: 2px solid var(--panel-line);
+
+  box-shadow: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.navgrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+
+  width: 100%;
+
+  flex-shrink: 0;
+}
+
+.navgrid .btn {
+  margin-bottom: 0;
+}
+
+.backbtn {
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  border-radius: 12px;
+
+  border: 2px solid var(--panel-line);
+
+  background: var(--panel);
+  color: var(--fg);
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backbtn:active {
+  transform: translateY(2px);
+}
+
+/* =========================================================
+   SHOP
+   ========================================================= */
+
+.shopgrid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 10px;
+
+  width: 100%;
+
+  padding-bottom: 10px;
+}
+
+.shopcard {
+  position: relative;
+
+  min-width: 0;
+
+  padding: 8px;
+
+  background: var(--panel);
+
+  border: 2px solid var(--panel-line);
+
+  border-radius: 16px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  cursor: pointer;
+
+  overflow: hidden;
+}
+
+.shopcard.selected {
+  border-color: var(--mint);
+
+  box-shadow: 0 0 0 2px var(--mint) inset;
+}
+
+.shopcard.locked {
+  opacity: 0.55;
+}
+
+.shopcard canvas {
+  width: 56px;
+  height: 56px;
+
+  max-width: 100%;
+
+  display: block;
+}
+
+.shopcard .cname {
+  width: 100%;
+
+  margin-top: 4px;
+
+  font-size: 11px;
+  line-height: 1.1;
+
+  font-weight: 800;
+
+  text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shopcard .cprice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  margin-top: 2px;
+
+  color: var(--gold);
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.shopcard .cprice svg {
+  width: 12px;
+  height: 12px;
+}
+
+.lock-badge {
+  position: absolute;
+
+  top: 4px;
+  right: 4px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   LEVELS
+   ========================================================= */
+
+.levelsgrid {
+  display: grid;
+
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+
+  gap: 8px;
+
+  width: 100%;
+
+  padding-bottom: 10px;
+}
+
+.levelcell {
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 1;
+
+  border-radius: 12px;
+
+  border: 2px solid var(--panel-line);
+
+  background: var(--panel);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 800;
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.levelcell.locked {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.levelcell.current {
+  border-color: var(--coral);
+
+  box-shadow: 0 0 0 1px var(--coral) inset;
+}
+
+.levelcell .stars {
+  position: absolute;
+
+  bottom: 3px;
+
+  font-size: 7px;
+
+  letter-spacing: 1px;
+
+  color: var(--gold);
+}
+
+/* =========================================================
+   RULES
+   ========================================================= */
+
+.rulesbox p {
+  margin: 0 0 12px;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  color: #d9dbf2;
+}
+
+.rule-icon {
+  font-size: 20px;
+  margin-right: 6px;
+}
+
+.rule-row {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  margin-bottom: 16px;
+
+  padding: 12px;
+
+  background: var(--panel);
+
+  border: 2px solid var(--panel-line);
+
+  border-radius: 14px;
+}
+
+.rule-row svg {
+  width: 30px;
+  height: 30px;
+
+  flex-shrink: 0;
+
+  margin-top: 2px;
+}
+
+.rule-row .rt {
+  margin-bottom: 2px;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.rule-row .rd {
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  color: #c7cae6;
+}
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+
+.setting-row {
+  margin-bottom: 12px;
+
+  padding: 14px;
+
+  background: var(--panel);
+
+  border: 2px solid var(--panel-line);
+
+  border-radius: 14px;
+}
+
+.setting-row .sr-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 6px;
+}
+
+.setting-row .sr-label {
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   TOGGLE
+   ========================================================= */
+
+.toggle {
+  position: relative;
+
+  width: 46px;
+  height: 26px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background: #3a3f6b;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+.toggle.on {
+  background: var(--mint);
+}
+
+.toggle::after {
+  content: "";
+
+  position: absolute;
+
+  top: 3px;
+  left: 3px;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  transition: left 0.15s ease;
+}
+
+.toggle.on::after {
+  left: 23px;
+}
+
+/* =========================================================
+   RANGE
+   ========================================================= */
+
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+
+  padding: 0;
+
+  border-radius: 999px;
+
+  background: #3a3f6b;
+
+  outline: none;
+
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  background: var(--gold);
+
+  border: 2px solid var(--ink);
+
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  background: var(--gold);
+
+  border: 2px solid var(--ink);
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   ==================== GAME SCREEN ========================
+   ========================================================= */
+
+#gameScreen {
+  position: absolute;
+
+  inset: 0;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  background: #0e1026;
+}
+
+#gameCanvasWrap {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  overflow: hidden;
+
+  background: #0e1026;
+
+  isolation: isolate;
+}
+
+#gameCanvas {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  /*
+   * IMPORTANT:
+   * Do not use object-fit: cover here.
+   * The JS game engine should control the
+   * internal canvas resolution.
+   */
+  object-fit: fill;
+
+  touch-action: none;
+
+  user-select: none;
+
+  -webkit-user-select: none;
+
+  background: transparent;
+}
+
+/* =========================================================
+   GAME HUD
+   ========================================================= */
+
+.hud {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 4;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: max(14px, env(safe-area-inset-top)) 14px 0;
+
+  pointer-events: none;
+}
+
+.hud-left,
+.hud-right {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  pointer-events: auto;
+}
+
+.hud-chip {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 6px 12px;
+
+  background: rgba(18, 20, 42, 0.55);
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  border: 2px solid rgba(255, 255, 255, 0.18);
+
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+.hud-chip svg {
+  width: 16px;
+  height: 16px;
+
+  flex-shrink: 0;
+}
+
+.pausebtn-wrap {
+  pointer-events: auto;
+}
+
+/* =========================================================
+   SCORE
+   ========================================================= */
+
+.scorebig {
+  position: absolute;
+
+  top: clamp(68px, 10vh, 88px);
+
+  left: 0;
+  right: 0;
+
+  z-index: 3;
+
+  text-align: center;
+
+  pointer-events: none;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-weight: 800;
+
+  font-size: clamp(42px, 13vw, 52px);
+
+  line-height: 1;
+
+  color: #fff;
+
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================================
+   START BANNER
+   ========================================================= */
+
+.startbanner {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 5;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 14px;
+
+  padding: 24px;
+
+  pointer-events: none;
+}
+
+.startbanner .tapmsg {
+  padding: 10px 18px;
+
+  border-radius: 14px;
+
+  background: rgba(0, 0, 0, 0.4);
+
+  color: #fff;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 17px;
+
+  font-weight: 800;
+
+  text-align: center;
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.stars-row {
+  margin: 6px 0 2px;
+
+  color: var(--gold);
+
+  font-size: 22px;
+
+  letter-spacing: 6px;
+}
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.overlay {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 10;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  padding: max(26px, env(safe-area-inset-top)) 26px
+    max(26px, env(safe-area-inset-bottom));
+
+  background: rgba(10, 11, 26, 0.82);
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.overlay.active {
+  display: flex;
+}
+
+.overlay-card {
+  width: min(100%, 340px);
+
+  max-height: 90%;
+
+  overflow-y: auto;
+
+  padding: 26px 22px;
+
+  border-radius: 22px;
+
+  background: var(--panel);
+
+  border: 2px solid var(--panel-line);
+
+  text-align: center;
+
+  scrollbar-width: none;
+}
+
+.overlay-card::-webkit-scrollbar {
+  display: none;
+}
+
+.overlay-card h2 {
+  margin: 0 0 4px;
+
+  font-size: 26px;
+
+  line-height: 1.1;
+}
+
+.overlay-card .stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin: 8px 0;
+
+  padding: 10px 14px;
+
+  background: var(--dusk-2);
+
+  border-radius: 12px;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-weight: 800;
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast {
+  position: absolute;
+
+  top: 120px;
+  left: 50%;
+
+  z-index: 8;
+
+  max-width: calc(100% - 40px);
+
+  transform: translateX(-50%);
+
+  padding: 8px 16px;
+
+  border-radius: 12px;
+
+  background: rgba(18, 20, 42, 0.9);
+
+  border: 2px solid var(--panel-line);
+
+  color: var(--fg);
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  text-align: center;
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+/* =========================================================
+   MOBILE FIXES
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .screen {
+    padding: 16px;
+  }
+
+  h1.title {
+    font-size: 34px;
+  }
+
+  .subtitle {
+    margin-bottom: 14px;
+  }
+
+  .shopgrid {
+    gap: 7px;
+  }
+
+  .levelsgrid {
+    gap: 6px;
+  }
+
+  .hud {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .hud-chip {
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+
+  .scorebig {
+    top: 64px;
+  }
+}
+
+/* =========================================================
+   VERY SHORT SCREENS
+   ========================================================= */
+
+@media (max-height: 620px) {
+  .screen {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .stage-preview {
+    min-height: 120px;
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .scorebig {
+    top: 58px;
+    font-size: 42px;
+  }
+}
+
+/* =========================================================
+   LANDSCAPE MOBILE
+   ========================================================= */
+
+@media (orientation: landscape) and (max-height: 600px) {
+  #app {
+    max-width: none;
+    max-height: none;
+  }
+
+  .screen {
+    padding: 12px 18px;
+  }
+
+  .stage-preview {
+    min-height: 100px;
+  }
+
+  .hud {
+    padding-top: 8px;
+  }
+
+  .scorebig {
+    top: 48px;
+    font-size: 38px;
+  }
+}
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+@media (min-width: 481px) {
+  body {
+    background: radial-gradient(circle at center, #242957 0%, #12142a 60%);
+  }
+
+  #app {
+    border-radius: 18px;
+  }
+}
+
+/* =========================================================
+   SAFE AREA
+   ========================================================= */
+
+@supports (padding: env(safe-area-inset-top)) {
+  #app {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  #gameScreen {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
