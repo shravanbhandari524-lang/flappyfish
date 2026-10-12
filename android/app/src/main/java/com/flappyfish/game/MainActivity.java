@@ -1,4 +1,4 @@
-package com.flappyfish.game;
+package com.flappyfishogs.game;
 
 import com.getcapacitor.BridgeActivity;
 
